@@ -1,6 +1,5 @@
 import logging
 import socket
-import datetime
 import time
 import requests
 
@@ -41,9 +40,13 @@ def log_isp():
 if __name__ == "__main__":
     logger.info("Starting connectivity check...")
     log_isp()
+    total_failed = 0
+    total_count = 1
     while True:
         if check_connectivity():
-            logger.info("Connectivity check passed.")
+            logger.info(f"Connectivity check passed. fail rate: {total_failed}/{total_count}")
         else:
-            logger.info("Connectivity check failed.")
-        time.sleep(60)
+            total_failed += 1
+            logger.info(f"Connectivity check failed. fail rate: {total_failed}/{total_count}")
+        time.sleep(30)
+        total_count += 1
